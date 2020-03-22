@@ -3,10 +3,11 @@
 #include "i_node.hpp"
 #include "i_operation.hpp"
 
-class OperatorNode: public INode {
+class OperatorNode : public INode {
   IOperation* operation_;
-public:
+
+ public:
   explicit OperatorNode(IOperation* operation);
-  void Act(std::stack<double> &s) const override;
+  void Act(std::stack<double>& s) const override;
   virtual ~OperatorNode();
 };

@@ -1,4 +1,5 @@
 #include "tokenizer.hpp"
+
 #include <iostream>
 #include <sstream>
 
@@ -17,4 +18,3 @@ vector<string> Tokenizer::tokenize(const string &text) const {
 
   return tokens;
 }
-Tokenizer::~Tokenizer() { cout << "~Tokenizer" << endl; }

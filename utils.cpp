@@ -1,10 +1,11 @@
 #include "utils.hpp"
+
 #include <iostream>
 #include <stdexcept>
 
 bool IsNumber(const std::string &str) {
   try {
-    auto res = std::stod(str); // we need only exception or no exception
+    auto res = std::stod(str);  // we need only exception or no exception
   } catch (const std::invalid_argument &ex) {
     return false;
   }

@@ -1,3 +1,4 @@
+#include <cmath>
 #include <iostream>
 
 #include "add_op.hpp"
@@ -7,20 +8,18 @@
 #include "sub_op.hpp"
 #include "tokenizer.hpp"
 #include "utils.hpp"
-#include <cmath>
 
-Parser *DefaultParser() {
-  auto p = new Parser();
-  p->RegisterOp(new AddOp());
-  p->RegisterOp(new MulOp());
-  p->RegisterOp(new SubOp());
-  p->RegisterOp(new DivOp());
+std::unique_ptr<Parser> DefaultParser() {
+  auto p = std::make_unique<Parser>();
+  p->Register<AddOp>();
+  p->Register<MulOp>();
+  p->Register<SubOp>();
+  p->Register<DivOp>();
   return p;
 }
 
-Calc *DefaultCalc() {
-  auto t = new Tokenizer(' ');
-  return new Calc(t, DefaultParser());
+std::unique_ptr<Calc> DefaultCalc() {
+  return std::make_unique<Calc>(std::make_unique<Tokenizer>(' '), DefaultParser());
 }
 
 void AssertEqD(double a, double b, int line) {
@@ -42,19 +41,16 @@ void AssertTrue(bool b) {
 void test_0() {
   auto calc = DefaultCalc();
   AssertEqD(calc->eval("0"), 0.0, __LINE__);
-  delete calc;
 }
 
 void test_1() {
   auto calc = DefaultCalc();
   AssertEqD(calc->eval("1 2 3 42"), 42.0, __LINE__);
-  delete calc;
 }
 
 void test_2() {
   auto calc = DefaultCalc();
   AssertEqD(calc->eval("1 2 +"), 3, __LINE__);
-  delete calc;
 }
 
 void test_arithmetic() {
@@ -62,7 +58,6 @@ void test_arithmetic() {
   AssertEqD(calc->eval("5 1 2 + 4 * + 3 -"), 14.0, __LINE__);
   // 15 7 1 1 + - / 3 * 2 1 1 + + 1
   AssertEqD(calc->eval("15 7 1 1 + - / 3 * 2 1 1 + + -"), 5.0, __LINE__);
-  delete calc;
 }
 
 void test_tokenizer() {
@@ -71,8 +66,7 @@ void test_tokenizer() {
   std::vector<std::string> expected{"1", "2", "3", "4", "5"};
   for (int i = 0; i < expected.size(); i++) {
     if (res[i] != expected[i]) {
-      std::cout << "FAIL at i=" << i << " res[i]='" << res[i] << "' exp[i]"
-                << expected[i] << std::endl;
+      std::cout << "FAIL at i=" << i << " res[i]='" << res[i] << "' exp[i]" << expected[i] << std::endl;
       exit(-1);
     }
   }

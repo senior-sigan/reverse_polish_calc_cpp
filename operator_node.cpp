@@ -1,4 +1,5 @@
 #include "operator_node.hpp"
+
 #include <iostream>
 
 void OperatorNode::Act(std::stack<double> &s) const {

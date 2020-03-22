@@ -1,4 +1,5 @@
 #include "double_node.hpp"
+
 #include <iostream>
 
 void DoubleNode::Act(std::stack<double> &s) const {

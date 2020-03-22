@@ -1,15 +1,16 @@
 #pragma once
 
-#include "parser.hpp"
-#include "tokenizer.hpp"
+#include <memory>
 #include <string>
 
-class Calc {
-  Tokenizer *tokenizer_;
-  Parser *parser_;
+#include "parser.hpp"
+#include "tokenizer.hpp"
 
-public:
-  explicit Calc(Tokenizer *tokenizer, Parser *parser);
+class Calc {
+  std::unique_ptr<Tokenizer> tokenizer_;
+  std::unique_ptr<Parser> parser_;
+
+ public:
+  Calc(std::unique_ptr<Tokenizer> tokenizer, std::unique_ptr<Parser> parser);
   double eval(const std::string &text) const;
-  ~Calc();
 };
